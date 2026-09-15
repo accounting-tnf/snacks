@@ -42,6 +42,38 @@ heading, and put each one on its own line in `flavors_batch`. If there's
 only one, still use `flavors_batch` with one line — the batch mode gives
 you the same single confirmation.
 
+### "do all" / "open all" / "close all" — refers to the LAST bot message
+
+**Owner rule 2026-09-15 (final):** When ANYONE in channel `C0ASKH7LHFF`
+says any of:
+- "do all these" / "do all of them" / "do these"
+- "open all" / "open all these" / "open all of the above"
+- "close all" / "close all these"
+- "yes do all" (as a reply to a prior confirmation ask)
+
+…they mean the **items listed in the most recent bot message before
+their command** — the latest BIG REPORT, NEW TRANSITIONS, "New this
+hour", "From previous — keep monitoring", or 60-min heartbeat.
+
+**Every item in that message is an action item, regardless of its tag.**
+LOW, URGENT, CRITICAL, OPEN-AHEAD, CLOSE-A-BOX NOW, "keep monitoring" —
+all of them. Lines under CLOSE-A-BOX default to `action=close`. Every
+other line defaults to `action=open`. Bundle them into ONE
+`flavors_batch` call. Do NOT ask "want me to open a box of any?" — the
+owner has already said do all.
+
+### If your reply gets auto-routed to Claude.ai Chat (no `gh` CLI)
+
+Some multi-item or ambiguous replies get bounced by Slack from the
+legacy `@Claude` bot to Claude.ai Chat, which cannot trigger GitHub
+Actions from here (only Shopify GraphQL / MCP tools / web). **Do NOT
+mutate inventory directly via Shopify GraphQL to work around this.**
+Reply telling the owner to re-tag `@Claude` in the channel so the
+legacy bot picks it up. Direct GraphQL bypasses the workflow's
+guardrails (state bump, Slack confirm, box-size logic, optimistic
+concurrency) and caused a real bug on 2026-09-14 (Chocolate Truffle
+decremented the wrong SKU).
+
 ## After triggering
 
 1. Reply in-thread with the run URL. Example:
